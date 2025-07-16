@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import { io } from "socket.io-client";
 
-const BASE_URL = "http://localhost:5000"
+const BASE_URL = "https://social-talk.onrender.com"
 
 export const useSocketStore = create((set, get) => ({
   onlineUsers: [],

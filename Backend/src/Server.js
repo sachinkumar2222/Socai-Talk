@@ -12,7 +12,7 @@ import {app,server} from "./Lib/socket.js"
 env.config();
 
 app.use(cors({
-    origin: "http://localhost:5173",
+    origin: "https://social-talk.vercel.app",
     credentials: true
 }));
 app.use(express.json({ limit: "10mb" }));
