@@ -43,7 +43,7 @@ const UpdateProfilePage = () => {
 
   return (
     <>
-      <div className="min-h-screen ">
+      <div className="min-h-screen bg-base-100">
         <div className="h-16 flex items-center px-2 sticky top-0 z-10 bg-base-100 border-b border-base-300">
           <button
             onClick={() => navigate("/")}
