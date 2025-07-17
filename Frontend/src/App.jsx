@@ -1,6 +1,5 @@
 import { Navigate, Route, Routes } from "react-router";
 import { Toaster } from "react-hot-toast";
-import { useEffect, useState } from "react";
 
 import SignUpPage from "./Pages/SignUpPage.jsx";
 import LoginPage from "./Pages/LoginPage.jsx";
@@ -41,7 +40,7 @@ const App = () => {
   if (isLoading) return <PageLoader />;
 
   return (
-    <div className={isLargeScreen ? "h-screen" : "custom-height"} data-theme={theme}>
+    <div className="h-screen" data-theme={theme}>
       <Routes>
         <Route
           path="/signup"
