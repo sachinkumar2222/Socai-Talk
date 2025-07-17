@@ -19,7 +19,7 @@ const HomePage = () => {
     queryFn: getRecommUser,
   });
 
-  const { data: outgoingFriendReqs } = useQuery({
+  const { data: outgoingFriendReqs = [] } = useQuery({
     queryKey: ["outgoingFriendReqs"],
     queryFn: getOutgoingFriendReqs,
   });
@@ -34,11 +34,12 @@ const HomePage = () => {
   });
 
 useEffect(() => {
-  if (!outgoingFriendReqs) return;
+  if (!Array.isArray(outgoingFriendReqs)) return;
 
   const ids = new Set(outgoingFriendReqs.map((req) => req.receiver._id));
   setOutgoingRequestsIds(ids);
 }, [outgoingFriendReqs]);
+
 
 
   return (
