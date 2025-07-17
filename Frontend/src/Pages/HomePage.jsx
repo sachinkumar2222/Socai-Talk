@@ -33,16 +33,13 @@ const HomePage = () => {
       queryClient.invalidateQueries({ queryKey: ["outgoingFriendReqs"] }),
   });
 
-  useEffect(() => {
-    const outgoingIds = new Set();
-    if (outgoingFriendReqs && outgoingFriendReqs.length > 0) {
-      outgoingFriendReqs.forEach((req) => {
-        outgoingIds.add(req.receiver._id);
-      });
-      setOutgoingRequestsIds(outgoingIds);
-      console.log("outgoing request",outgoingRequestsIds);
-    }
-  }, [outgoingFriendReqs]);
+useEffect(() => {
+  if (!outgoingFriendReqs) return;
+
+  const ids = new Set(outgoingFriendReqs.map((req) => req.receiver._id));
+  setOutgoingRequestsIds(ids);
+}, [outgoingFriendReqs]);
+
 
   return (
     <div className="p-4 sm:p-6 lg:p-8">
