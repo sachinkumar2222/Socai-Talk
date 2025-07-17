@@ -19,20 +19,6 @@ import UpdateProfilePage from "./Pages/UpdateProfilePage.jsx";
 const App = () => {
   const { isLoading, authUser } = useAuthUser();
   const { theme } = useThemeStore();
-  
-  // ✅ Initialize with false (safe on server too)
-  const [isLargeScreen, setIsLargeScreen] = useState(false);
-
-  useEffect(() => {
-    // ✅ Safe to access window here
-    const checkScreenSize = () => {
-      setIsLargeScreen(window.innerWidth > 497);
-    };
-
-    checkScreenSize(); // call initially
-    window.addEventListener("resize", checkScreenSize);
-    return () => window.removeEventListener("resize", checkScreenSize);
-  }, []);
 
   const isAuthenticated = authUser?.isVerified;
   const isOnboarded = authUser?.isOnboarded;
