@@ -81,6 +81,6 @@ export const getUserFriends = async () => {
 };
 
 export const logout = async () => {
-  const res = await axiosInstance.post("/api/auth/logout");
+  const res = await axiosInstance.post("/api/auth/logout", {}, { withCredentials: true });
   return res.data;
 };
