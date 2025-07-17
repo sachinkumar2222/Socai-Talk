@@ -40,6 +40,7 @@ const HomePage = () => {
         outgoingIds.add(req.receiver._id);
       });
       setOutgoingRequestsIds(outgoingIds);
+      console.log("outgoing request",outgoingRequestsIds);
     }
   }, [outgoingFriendReqs]);
 
