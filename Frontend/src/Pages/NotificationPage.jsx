@@ -29,7 +29,7 @@ const NotificationPage = () => {
   const acceptedRequests = friendRequests?.acceptedReqs || [];
 
   return (
-    <div className="p-4 sm:p-6 lg:p-8">
+    <div className="p-4 sm:p-6 lg:p-8 xs:h-[100vh]">
       <div className="container mx-auto max-w-4xl space-y-8">
         <h1 className="text-2xl sm:text-3xl font-bold tracking-tight mb-6">
           Notifications
