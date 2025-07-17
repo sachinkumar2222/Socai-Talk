@@ -54,7 +54,7 @@ const UpdateProfilePage = () => {
           </button>
           <h1 className="ml-4 text-lg font-semibold">Update Profile</h1>
         </div>
-        <div className="pt-20 px-4">
+        <div className="pt-20 xs:pt-10 px-4">
           <div className="max-w-2xl mx-auto space-y-8">
             <div className="bg-base-300 rounded-2xl shadow p-8 space-y-10">
               <div className="text-center">
