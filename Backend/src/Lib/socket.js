@@ -8,6 +8,8 @@ const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
     origin: ["https://social-talk.vercel.app"],
+    methods: ["GET", "POST"],
+    credentials: true,
   },
 });
 
