@@ -7,20 +7,21 @@ import { useNavigate } from 'react-router';
 
 const useLogOut = () => {
     const queryClient = useQueryClient();
-    const {disconnectSocket} = useSocketStore();
-     const navigate = useNavigate()
+    const { disconnectSocket } = useSocketStore();
+    const navigate = useNavigate()
 
-    const {mutate} = useMutation({
+    const { mutate } = useMutation({
         mutationFn: logout,
-        onSuccess : () =>{
-            queryClient.invalidateQueries({queryKey: ["authUser"]});
+        onSuccess: () => {
+            queryClient.setQueryData(["authUser"], null); // Instant UI update
+            queryClient.invalidateQueries({ queryKey: ["authUser"] });
             navigate("/login");
             toast.success("logout successful")
             disconnectSocket();
-        } 
+        }
     })
 
-    return {mutate}
+    return { mutate }
 }
 
 export default useLogOut;

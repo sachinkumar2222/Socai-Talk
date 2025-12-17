@@ -375,7 +375,11 @@ export const onboard = async (req, res) => {
 };
 
 export const logout = (req, res) => {
-  res.clearCookie("jwt");
+  res.clearCookie("jwt", {
+    httpOnly: true,
+    sameSite: "None",
+    secure: true,
+  });
   return res
     .status(200)
     .json({ success: true, message: "logged out successfully" });
