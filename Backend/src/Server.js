@@ -6,6 +6,7 @@ import cors from "cors";
 import authRoutes from "./routes/auth.routes.js"
 import messageRoutes from "./routes/message.routes.js"
 import userRoutes from "./routes/user.routes.js"
+import groupRoutes from "./routes/group.routes.js"
 import { connectDb } from "./Lib/db.js"
 import { app, server } from "./Lib/socket.js"
 
@@ -23,6 +24,7 @@ app.use(cookieParser());
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes)
 app.use("/api/message", messageRoutes);
+app.use("/api/groups", groupRoutes);
 
 const PORT = process.env.PORT || 5001;
 
