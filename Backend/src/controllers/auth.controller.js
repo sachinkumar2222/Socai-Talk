@@ -238,19 +238,27 @@ export const resetPassword = async (req, res) => {
 };
 
 export const updateProfile = async (req, res) => {
-  const { profilePic } = req.body;
+  const { profilePic, fullName, bio } = req.body;
   const userId = req.user._id;
 
   try {
-    if (!profilePic) {
-      return res.status().json({ message: "Profile Pic is requied" });
+    // If no fields are provided, return error
+    if (!profilePic && !fullName && !bio) {
+      return res.status(400).json({ message: "At least one field (Profile picture, Full Name, or Bio) is required" });
     }
 
-    const uploadresponse = await cloudinary.uploader.upload(profilePic);
+    let updatedData = {};
+    if (fullName) updatedData.fullName = fullName;
+    if (bio) updatedData.bio = bio;
+
+    if (profilePic) {
+      const uploadresponse = await cloudinary.uploader.upload(profilePic);
+      updatedData.profilePic = uploadresponse.secure_url;
+    }
 
     const uploadUser = await User.findByIdAndUpdate(
       userId,
-      { profilePic: uploadresponse.secure_url },
+      updatedData,
       { new: true }
     );
 
@@ -261,10 +269,53 @@ export const updateProfile = async (req, res) => {
   }
 };
 
+export const updatePassword = async (req, res) => {
+  const { oldPassword, newPassword } = req.body;
+  const userId = req.user._id;
+
+  try {
+    if (!oldPassword || !newPassword) {
+      return res.status(400).json({ message: "All fields are required" });
+    }
+
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    const isMatch = await bcrypt.compare(oldPassword, user.password);
+    if (!isMatch) {
+      return res.status(400).json({ message: "Incorrect old password" });
+    }
+
+    if (newPassword.length < 6) {
+      return res.status(400).json({ message: "New password must be at least 6 characters" });
+    }
+
+    // Hash new password - schema pre-save hook might handle this but doing it here explicitly is safer if logic varies
+    // Assuming the schema has a pre-save hook or we need to hash it. 
+    // Looking at signup, it doesn't hash explicitly, so likely schema handles it OR I missed it.
+    // Wait, in signup:   const newUser = new User({... password ...}); await newUser.save();
+    // Usually bcrypt is in pre-save. If not, I need to hash.
+    // Let me double check if hashing is done in pre-save by checking model.
+    // Actually in login: await bcrypt.compare(password, user.password);
+    // In signup: just passed password. So likely pre-save hook exists in auth.model.js.
+
+    user.password = newPassword;
+    await user.save();
+
+    return res.status(200).json({ success: true, message: "Password updated successfully" });
+
+  } catch (error) {
+    console.log("Error in updatePassword controller", error);
+    return res.status(500).json({ message: "Internal server error" });
+  }
+};
+
 export const onboard = async (req, res) => {
   try {
     const userId = req.user._id;
-     
+
     const {
       fullName,
       bio,
@@ -324,7 +375,11 @@ export const onboard = async (req, res) => {
 };
 
 export const logout = (req, res) => {
-  res.clearCookie("jwt");
+  res.clearCookie("jwt", {
+    httpOnly: true,
+    secure: true,
+    sameSite: "None",
+  });
   return res
     .status(200)
     .json({ success: true, message: "logged out successfully" });

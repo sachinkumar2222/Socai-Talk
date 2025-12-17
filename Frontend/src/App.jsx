@@ -1,6 +1,6 @@
 import { Navigate, Route, Routes } from "react-router";
+import { useEffect } from "react";
 import { Toaster } from "react-hot-toast";
-import { useEffect, useState } from "react";
 
 import SignUpPage from "./Pages/SignUpPage.jsx";
 import LoginPage from "./Pages/LoginPage.jsx";
@@ -20,20 +20,12 @@ import UpdateProfilePage from "./Pages/UpdateProfilePage.jsx";
 const App = () => {
   const { isLoading, authUser } = useAuthUser();
   const { theme } = useThemeStore();
-  
-  // ✅ Initialize with false (safe on server too)
-  const [isLargeScreen, setIsLargeScreen] = useState(false);
 
+  // Force a dark theme for now or ensure the stored theme is valid
+  // This is a quick check, ideally we use the store 
   useEffect(() => {
-    // ✅ Safe to access window here
-    const checkScreenSize = () => {
-      setIsLargeScreen(window.innerWidth > 497);
-    };
-
-    checkScreenSize(); // call initially
-    window.addEventListener("resize", checkScreenSize);
-    return () => window.removeEventListener("resize", checkScreenSize);
-  }, []);
+    document.documentElement.setAttribute("data-theme", theme);
+  }, [theme]);
 
   const isAuthenticated = authUser?.isVerified;
   const isOnboarded = authUser?.isOnboarded;
@@ -41,7 +33,7 @@ const App = () => {
   if (isLoading) return <PageLoader />;
 
   return (
-    <div className={isLargeScreen ? "h-screen" : "custom-height"} data-theme={theme}>
+    <div className="h-screen">
       <Routes>
         <Route
           path="/signup"
@@ -114,7 +106,7 @@ const App = () => {
           path="/friends"
           element={
             isAuthenticated && isOnboarded ? (
-              <Layout showSidebar>
+              <Layout showNavbar={false}>
                 <FriendsPage />
               </Layout>
             ) : (

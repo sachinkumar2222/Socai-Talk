@@ -152,7 +152,7 @@ export const acceptFriendRequest = async (req, res) => {
 
 export const getOutgoingFriendReqs = async (req, res) => {
   try {
-    const outgoingRequest = await FriendRequest.findOne({
+    const outgoingRequest = await FriendRequest.find({
       sender: req.user._id,
       status: "pending",
     }).populate("receiver", "fullName nativeLanguage learingLanguage");

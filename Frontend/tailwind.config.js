@@ -7,14 +7,22 @@ export default {
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        sans: ['Outfit', 'sans-serif'],
+      },
+      screens: {
+        xs: "360px",
+      },
+    },
   },
   plugins: [daisyui],
-    daisyui: {
+  daisyui: {
     themes: [
       "light",
       "dark",
       "cupcake",
+      "forest",
       "bumblebee",
       "emerald",
       "corporate",
@@ -24,7 +32,6 @@ export default {
       "valentine",
       "halloween",
       "garden",
-      "forest",
       "aqua",
       "lofi",
       "pastel",

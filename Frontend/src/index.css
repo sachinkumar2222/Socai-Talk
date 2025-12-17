@@ -2,7 +2,39 @@
 @tailwind components;
 @tailwind utilities;
 
-.custom-height{
+:root {
+    font-family: 'Outfit', sans-serif;
+}
+
+body {
+    background-color: oklch(var(--b1));
+    color: oklch(var(--bc));
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+
+.custom-height {
     height: 187vh;
     width: 136vw;
+}
+
+/* Glassmorphism Utilities */
+.glass-panel {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.glass-input {
+    background: rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: white;
+}
+
+.glass-input:focus {
+    border-color: oklch(var(--p));
+    outline: none;
 }

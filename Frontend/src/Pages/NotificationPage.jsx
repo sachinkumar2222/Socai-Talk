@@ -29,139 +29,142 @@ const NotificationPage = () => {
   const acceptedRequests = friendRequests?.acceptedReqs || [];
 
   return (
-    <div className="p-4 sm:p-6 lg:p-8">
-      <div className="container mx-auto max-w-4xl space-y-8">
-        <h1 className="text-2xl sm:text-3xl font-bold tracking-tight mb-6">
-          Notifications
-        </h1>
+    <div className="min-h-screen bg-base-200/50 pt-24 pb-12 px-4 sm:px-6 lg:px-8">
+      <div className="container mx-auto max-w-4xl">
+        <div className="mb-10 text-center">
+          <h1 className="text-4xl font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-primary to-secondary inline-block mb-3">
+            Notifications
+          </h1>
+          <p className="text-base-content/60 text-lg">
+            Stay updated with your latest interactions
+          </p>
+        </div>
 
         {isLoading ? (
-          <div className="flex justify-center py-12">
-            <span className="loading loading-spinner loading-lg"></span>
+          <div className="flex justify-center py-20">
+            <span className="loading loading-spinner text-primary loading-lg"></span>
           </div>
         ) : (
-          <AnimatePresence>
-            {incomingRequests.length > 0 || acceptedRequests.length > 0 ? (
-              <>
-                {/* Friend Requests */}
-                {incomingRequests.length > 0 && (
-                  <section className="space-y-4">
-                    <h2 className="text-xl font-semibold flex items-center gap-2">
-                      <UserCheckIcon className="h-5 w-5 text-primary" />
-                      Friend Requests
-                      <span className="badge badge-primary ml-2">
-                        {incomingRequests.length}
-                      </span>
-                    </h2>
+          <div className="space-y-8 min-h-[500px]">
 
-                    <div className="space-y-3">
-                      {incomingRequests.map((req) => (
-                        <motion.div
-                          key={req._id}
-                          initial={{ opacity: 0, y: 10 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          exit={{ opacity: 0, y: -10 }}
-                          transition={{ duration: 0.2 }}
-                          className="card bg-base-200 shadow-sm hover:shadow-md transition-shadow"
-                        >
-                          <div className="card-body p-4">
-                            <div className="flex items-center justify-between">
-                              {/* Left: User Info */}
-                              <div className="flex items-center gap-3">
-                                <div className="avatar w-14 h-14 rounded-full bg-base-300 overflow-hidden">
-                                  <img
-                                    src={req.sender.profilePic}
-                                    alt={req.sender.fullName}
-                                    className="object-cover w-full h-full"
-                                  />
-                                </div>
+            <AnimatePresence mode="popLayout">
+              {incomingRequests.length > 0 || acceptedRequests.length > 0 ? (
+                <>
+                  {/* Friend Requests */}
+                  {incomingRequests.length > 0 && (
+                    <section className="space-y-4">
+                      <div className="flex items-center gap-3 mb-4">
+                        <div className="p-2 bg-primary/10 rounded-xl">
+                          <UserCheckIcon className="h-6 w-6 text-primary" />
+                        </div>
+                        <h2 className="text-xl font-bold">Friend Requests</h2>
+                        <span className="badge badge-primary badge-lg">{incomingRequests.length}</span>
+                      </div>
 
+                      <div className="grid gap-4">
+                        {incomingRequests.map((req) => (
+                          <motion.div
+                            key={req._id}
+                            initial={{ opacity: 0, x: -20 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            exit={{ opacity: 0, scale: 0.95 }}
+                            className="bg-base-100/40 backdrop-blur-md rounded-2xl p-5 border border-white/5 shadow-lg flex flex-col sm:flex-row items-center gap-5 transition-all hover:border-primary/20 hover:shadow-primary/5 group"
+                          >
+                            <div className="relative">
+                              <img
+                                src={req.sender.profilePic}
+                                alt={req.sender.fullName}
+                                className="size-16 rounded-2xl object-cover border-2 border-base-100 shadow-sm"
+                              />
+                              <div className="absolute -bottom-2 -right-2 bg-base-100 p-1 rounded-full">
+                                <div className="size-3 bg-primary rounded-full animate-pulse"></div>
+                              </div>
+                            </div>
+
+                            <div className="flex-1 text-center sm:text-left space-y-2">
+                              <h3 className="font-bold text-lg">{req.sender.fullName}</h3>
+                              <div className="flex flex-wrap justify-center sm:justify-start gap-2">
+                                <span className="badge badge-neutral badge-sm gap-1 pl-1 pr-2 py-3 bg-base-300/50 border-0">
+                                  <span className="size-1.5 rounded-full bg-secondary"></span>
+                                  Native: {req.sender.nativeLanguage}
+                                </span>
+                                <span className="badge badge-neutral badge-sm gap-1 pl-1 pr-2 py-3 bg-base-300/50 border-0">
+                                  <span className="size-1.5 rounded-full bg-accent"></span>
+                                  Learning: {req.sender.learningLanguage}
+                                </span>
+                              </div>
+                            </div>
+
+                            <button
+                              className="btn btn-primary shadow-lg shadow-primary/20 hover:scale-105 transition-transform w-full sm:w-auto mt-2 sm:mt-0"
+                              onClick={() => mutate(req._id)}
+                              disabled={isPending}
+                            >
+                              {isPending ? <span className="loading loading-spinner loading-xs"></span> : "Accept Request"}
+                            </button>
+                          </motion.div>
+                        ))}
+                      </div>
+                    </section>
+                  )}
+
+                  {/* Accepted Requests */}
+                  {acceptedRequests.length > 0 && (
+                    <section className="space-y-4">
+                      <div className="flex items-center gap-3 mb-4 mt-8">
+                        <div className="p-2 bg-success/10 rounded-xl">
+                          <BellIcon className="h-6 w-6 text-success" />
+                        </div>
+                        <h2 className="text-xl font-bold">New Connections</h2>
+                      </div>
+
+                      <div className="grid gap-3">
+                        {acceptedRequests.map((noti) => (
+                          <motion.div
+                            key={noti._id}
+                            initial={{ opacity: 0, y: 10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            className="bg-base-100/30 backdrop-blur-sm rounded-xl p-4 border border-white/5 hover:bg-base-100/50 transition-colors flex items-center gap-4 group"
+                          >
+                            <div className="relative">
+                              <img
+                                src={noti.receiver.profilePic}
+                                alt={noti.receiver.fullName}
+                                className="size-12 rounded-full object-cover ring-2 ring-base-100 group-hover:ring-success transition-all"
+                              />
+                              <div className="absolute -bottom-1 -right-1 bg-success text-white rounded-full p-0.5 border-2 border-base-100">
+                                <UserCheckIcon className="size-3" />
+                              </div>
+                            </div>
+
+                            <div className="flex-1">
+                              <div className="flex justify-between items-start">
                                 <div>
-                                  <h3 className="font-semibold">
-                                    {req.sender.fullName}
+                                  <h3 className="font-semibold text-base">
+                                    {noti.receiver.fullName}
+                                    <span className="font-normal text-base-content/70 ml-1">accepted your request</span>
                                   </h3>
-                                  <div className="flex flex-wrap gap-1.5 mt-1 text-sm">
-                                    <span className="badge badge-secondary badge-sm">
-                                      Native: {req.sender.nativeLanguage}
-                                    </span>
-                                    <span className="badge badge-outline badge-sm">
-                                      Learning: {req.sender.learningLanguage}
-                                    </span>
-                                  </div>
+                                  <p className="text-xs text-base-content/40 mt-1 flex items-center gap-1">
+                                    <ClockIcon className="size-3" />
+                                    Just now
+                                  </p>
+                                </div>
+                                <div className="badge badge-success/20 text-success text-xs font-semibold border-0">
+                                  Connected
                                 </div>
                               </div>
-
-                              {/* Right: Accept Button */}
-                              <button
-                                className="btn btn-primary btn-sm"
-                                onClick={() => mutate(req._id)}
-                                disabled={isPending}
-                              >
-                                {isPending ? "Accepting..." : "Accept"}
-                              </button>
                             </div>
-                          </div>
-                        </motion.div>
-                      ))}
-                    </div>
-                  </section>
-                )}
-
-                {acceptedRequests.length > 0 && (
-                  <section className="space-y-4">
-                    <h2 className="text-xl font-semibold flex items-center gap-2">
-                      <BellIcon className="h-5 w-5 text-success" />
-                      New Connections
-                    </h2>
-
-                    <div className="space-y-3">
-                      {acceptedRequests.map((noti) => (
-                        <motion.div
-                          key={noti._id}
-                          initial={{ opacity: 0, y: 10 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          exit={{ opacity: 0, y: -10 }}
-                          transition={{ duration: 0.2 }}
-                          className="card bg-base-200 shadow-sm"
-                        >
-                          <div className="card-body p-4">
-                            <div className="flex items-start gap-3">
-                              <div className="avatar mt-1 size-10 rounded-full overflow-hidden bg-base-300">
-                                <img
-                                  src={noti.receiver.profilePic}
-                                  alt={noti.receiver.fullName}
-                                  className="object-cover w-full h-full"
-                                />
-                              </div>
-                              <div className="flex-1">
-                                <h3 className="font-semibold">
-                                  {noti.receiver.fullName}
-                                </h3>
-                                <p className="text-sm mt-0.5">
-                                  {noti.receiver.fullName} accepted your friend
-                                  request
-                                </p>
-                                <p className="text-xs flex items-center text-gray-500 mt-1">
-                                  <ClockIcon className="h-3 w-3 mr-1" />
-                                  Recently
-                                </p>
-                              </div>
-                              <div className="badge badge-success text-xs">
-                                <MessageSquareIcon className="h-3 w-3 mr-1" />
-                                New Friend
-                              </div>
-                            </div>
-                          </div>
-                        </motion.div>
-                      ))}
-                    </div>
-                  </section>
-                )}
-              </>
-            ) : (
-              <NoNotificationsFound />
-            )}
-          </AnimatePresence>
+                          </motion.div>
+                        ))}
+                      </div>
+                    </section>
+                  )}
+                </>
+              ) : (
+                <NoNotificationsFound />
+              )}
+            </AnimatePresence>
+          </div>
         )}
       </div>
     </div>

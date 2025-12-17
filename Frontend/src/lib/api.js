@@ -31,12 +31,12 @@ export const resendVerificationCode = async () => {
 };
 
 export const forgotPass = async (email) => {
-  const res = await axiosInstance.post("/api/auth/forgot-password",{email});
+  const res = await axiosInstance.post("/api/auth/forgot-password", { email });
   return res.data;
 }
 
-export const resetPassword = async ({token,password}) => {
-  const res = await axiosInstance.post(`/api/auth/reset-password/${token}`,{password});
+export const resetPassword = async ({ token, password }) => {
+  const res = await axiosInstance.post(`/api/auth/reset-password/${token}`, { password });
   return res.data;
 }
 
@@ -47,6 +47,11 @@ export const completeOnboarding = async (userData) => {
 
 export const updateProfile = async (userData) => {
   const response = await axiosInstance.put("/api/auth/update-profile", userData);
+  return response.data;
+};
+
+export const updatePassword = async (passwordData) => {
+  const response = await axiosInstance.put("/api/auth/update-password", passwordData);
   return response.data;
 };
 
@@ -81,6 +86,6 @@ export const getUserFriends = async () => {
 };
 
 export const logout = async () => {
-  const res = await axiosInstance.post("/api/auth/logout");
+  const res = await axiosInstance.post("/api/auth/logout", {}, { withCredentials: true });
   return res.data;
 };

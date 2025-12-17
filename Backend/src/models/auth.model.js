@@ -45,7 +45,7 @@ const userSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
-    
+
     lastLogin: {
       type: Date,
       default: Date.now,
@@ -64,6 +64,11 @@ const userSchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
+
+// Indexes for faster search and partner matching
+userSchema.index({ fullName: 'text' }); // Text index for name search
+userSchema.index({ nativeLanguage: 1, learningLanguage: 1 }); // Composite index for partner matching
+userSchema.index({ isOnboarded: 1 }); // Fast filter for active users
 
 userSchema.pre("save", async function (next) {
   if (!this.isModified("password")) return next();
