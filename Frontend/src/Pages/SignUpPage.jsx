@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { EarthIcon } from "lucide-react";
+import { EarthIcon, Eye, EyeOff, Lock, Mail, User } from "lucide-react";
 import { Link } from "react-router";
 import useSignUp from "../hooks/useSignUp";
 import useAuthUser from "../hooks/useAuthUser";
