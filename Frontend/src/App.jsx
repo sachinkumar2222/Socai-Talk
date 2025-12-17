@@ -1,5 +1,5 @@
 import { Navigate, Route, Routes } from "react-router";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Toaster } from "react-hot-toast";
 
 import SignUpPage from "./Pages/SignUpPage.jsx";
