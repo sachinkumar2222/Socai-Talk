@@ -13,7 +13,7 @@ env.config();
 
 // Allow access from anywhere
 app.use(cors({
-  origin: ["http://localhost:5173", "https://social-talk.vercel.app"],
+  origin: ["https://social-talk.vercel.app"],
   credentials: true
 }));
 
