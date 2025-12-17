@@ -29,16 +29,11 @@ const NotificationPage = () => {
   const acceptedRequests = friendRequests?.acceptedReqs || [];
 
   return (
-    <div className="min-h-screen bg-base-200/50 pt-24 pb-12 px-4 sm:px-6 lg:px-8">
-      <div className="container mx-auto max-w-4xl">
-        <div className="mb-10 text-center">
-          <h1 className="text-4xl font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-primary to-secondary inline-block mb-3">
-            Notifications
-          </h1>
-          <p className="text-base-content/60 text-lg">
-            Stay updated with your latest interactions
-          </p>
-        </div>
+    <div className="p-4 sm:p-6 lg:p-8">
+      <div className="container mx-auto max-w-4xl space-y-8">
+        <h1 className="text-2xl sm:text-3xl font-bold tracking-tight mb-6">
+          Notifications
+        </h1>
 
         {isLoading ? (
           <div className="flex justify-center py-20">

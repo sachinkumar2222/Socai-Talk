@@ -3,19 +3,20 @@ import User from "../models/auth.model.js";
 
 export const protectRoute = async (req, res, next) => {
   const token = req.cookies.jwt;
+  console.log("Cookies received:", req.cookies);
 
   try {
     if (!token) {
       return res
         .status(401)
-        .json({ message: "Unauthorized - no token provided" });
+        .json({ message: "Unauthorized - no token provided-t" });
     }
 
     const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
     if (!decoded) {
       return res
         .status(401)
-        .json({ message: "Unauthorized - no token provided" });
+        .json({ message: "Unauthorized - no token provided-d" });
     }
 
     const user = await User.findById(decoded.userId).select("-password");

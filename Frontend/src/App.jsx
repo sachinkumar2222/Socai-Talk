@@ -21,11 +21,19 @@ const App = () => {
   const { isLoading, authUser } = useAuthUser();
   const { theme } = useThemeStore();
 
-  // Force a dark theme for now or ensure the stored theme is valid
-  // This is a quick check, ideally we use the store 
+  // ✅ Initialize with false (safe on server too)
+  const [isLargeScreen, setIsLargeScreen] = useState(false);
+
   useEffect(() => {
-    document.documentElement.setAttribute("data-theme", theme);
-  }, [theme]);
+    // ✅ Safe to access window here
+    const checkScreenSize = () => {
+      setIsLargeScreen(window.innerWidth > 497);
+    };
+
+    checkScreenSize(); // call initially
+    window.addEventListener("resize", checkScreenSize);
+    return () => window.removeEventListener("resize", checkScreenSize);
+  }, []);
 
   const isAuthenticated = authUser?.isVerified;
   const isOnboarded = authUser?.isOnboarded;
@@ -33,7 +41,7 @@ const App = () => {
   if (isLoading) return <PageLoader />;
 
   return (
-    <div className="h-screen">
+    <div className={isLargeScreen ? "h-screen" : "custom-height"} data-theme={theme}>
       <Routes>
         <Route
           path="/signup"
