@@ -26,6 +26,10 @@ app.use("/api/users", userRoutes)
 app.use("/api/message", messageRoutes);
 app.use("/api/groups", groupRoutes);
 
+app.get("/api/health", (req, res) => {
+  res.status(200).json({ message: "Server is running", version: "1.0.1" });
+});
+
 const PORT = process.env.PORT || 5001;
 
 server.listen(PORT, () => {
